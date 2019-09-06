@@ -1,101 +1,47 @@
-#include "go.hpp"
+#include "main.hpp"
 
 using namespace std;
 
-// void sdl_clean(t_sdl *sdl)
-// {
-//     // todo: delete[] pixels;
-//     SDL_DestroyTexture(sdl->texture);
-//     SDL_DestroyRenderer(sdl->renderer);
-//     SDL_DestroyWindow(sdl->window);
-//     SDL_Quit();
-// }
-
-
-
-void put_pix(Uint32 **pixels, int x, int y, Uint32 color)
-{
-    (*pixels)[y * WIDTH + x] = color;
-}
-
-void sdl_clear_texture(Uint32 **pixels)
-{
-    bzero(*pixels, WIDTH * HEIGHT * 4);
-}
-
-
-void sdl_apply_renderer(SDL_Texture *tex, SDL_Renderer *rend,  Uint32 *pixels) {
-        SDL_UpdateTexture(tex, NULL, pixels, WIDTH * sizeof(Uint32));
-        SDL_RenderCopy(rend, tex, NULL, NULL);
-        SDL_RenderPresent(rend);
-        sdl_clear_texture(&pixels);
-        SDL_RenderClear(rend);
-}
-
+// todo: resize window
 
 Uint32 *get_screen_pixels(void)
 {
     Uint32 *pixels;
 
-    if (!(pixels = (Uint32 *)malloc(WIDTH * HEIGHT * sizeof(Uint32))))
-        printf("allocating pixels failed.");
+    if (!(pixels = (Uint32 *)malloc(WIDTH * HEIGHT * sizeof(Uint32)))) // todo: make sure we don't need 1 extra memory cell
+        cout << "memory failed" << std::endl;
     memset(pixels, 0, WIDTH * HEIGHT * sizeof(Uint32));
     return (pixels);
 }
 
-void initSDl(SDL_Window *win, SDL_Renderer *rend, SDL_Texture *tex) {
-    SDL_Init(SDL_INIT_VIDEO);
-    win =  SDL_CreateWindow("Playful Light",
-    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL);
-    rend = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
-    tex  = SDL_CreateTexture(rend,
-    SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+void run(t_sdl *sdl)
+{
+    bool end;
 
-}
-
-void render(Uint32 *pixels) {
-    for (int i = 0; i < WIDTH - 1; i++) {
-        for(int j = 0; j < HEIGHT - 1; j++) {
-            put_pix(&pixels, i, j, 0x0000ff);
+    end = false;
+    while (!end)
+    {
+        for (int i = 0; i < WIDTH; i++)
+        {
+            sdl_put_pix(&(sdl->pixels), i, 5, 0x00ffff);
         }
+        SDL_UpdateTexture(sdl->texture, NULL, sdl->pixels, WIDTH * sizeof(Uint32));
+        SDL_RenderClear(sdl->renderer);
+        SDL_RenderCopy(sdl->renderer, sdl->texture, NULL, NULL);
+        SDL_RenderPresent(sdl->renderer);
+        SDL_WaitEvent(&(sdl->event));
+        event_hooks(sdl, &end);
     }
 }
 
+int main()
+{
+    t_sdl sdl;
 
-void run(SDL_Texture *tex, SDL_Renderer *rend) {
-
-    Uint32 *pixels = get_screen_pixels();
-    
-
- bool is_running = true;
-SDL_Event event;
-while (is_running) {
-    while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT) {
-            is_running = false;
-        }
-            
-    }
-    render(pixels);
-    put_pix(&pixels, 4, 5, 0x0000ff);
-    // sdl_apply_renderer(tex, rend, pixels);
-        SDL_UpdateTexture(tex, NULL, pixels, WIDTH * sizeof(Uint32));
-        SDL_RenderCopy(rend, tex, NULL, NULL);
-        SDL_RenderPresent(rend);
-        sdl_clear_texture(&pixels);
-        SDL_RenderClear(rend);
-
-}
-        // SDL_Quit();s
-}
-
-
-int main(void) {
-    SDL_Window *win;
-    SDL_Renderer *rend;
-    SDL_Texture *tex;
-
-
-    initSDl(win, rend, tex);
-    run(tex, rend);
+    sdl_init(&sdl);
+    sdl_init_renderer(&sdl);
+    sdl.pixels = get_screen_pixels();
+    run(&sdl);
+    sdl_clean(&sdl);
+    return 0;
 }

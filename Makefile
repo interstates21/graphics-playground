@@ -1,12 +1,13 @@
-NAME = go
-CC = clang++
-FILES = test
+NAME = doom
+CC = g++
+FILES = main  sdl_events sdl_helpers sdl_init
+LIBFT_DIR = libft/
 SRC = $(addprefix src/, $(addsuffix .cpp, $(FILES)))
 OBJ = $(addprefix obj/, $(addsuffix .o, $(FILES)))
 OBJ_LIST = $(addsuffix .o, $(FILES))
 SDL_CFLAGS = $(shell sdl2-config --cflags)
 SPEED = -O3
-FLAGSTMP = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 HEADERS = -I./includes
 
 OS = $(shell uname)
@@ -27,14 +28,23 @@ FRAMEWORKS	=	-F./frameworks \
 endif
 
 all: $(NAME)
-$(NAME): $(OBJ)
+
+.PHONY: all clean
+.NOTPARALLEL: all $(NAME) clean fclean re 
+
+$(NAME):$(OBJ)
+	@echo "\033[36mLinking...\033[0m"
 	@$(CC) -o $(NAME) $(FLAGS) $(SPEED) $(OBJ) $(CGFLAGS) $(FRAMEWORKS)
+	@echo "\033[32m[ ✔ ] Binary \033[1;32m$(NAME)\033[1;0m\033[32m created.\033[0m"
 obj/%.o: src/%.cpp
 	@$(CC) -o $@ $(FLAGS) $(SPEED) $(HEADERS) $(INCLUDES) -c $^
+	@echo "\033[37mCompilation of \033[97m$(notdir $<) \033[0m\033[37mdone. \033[0m"
 clean:
 	@rm -f $(OBJ)
+	@echo "\033[31m[ ✔ ] Objects files \033[91m$(OBJ_LIST) \033[0m\033[31m removed. \033[0m"
 fclean:
 	@rm -rf $(OBJ)
 	@rm -f $(NAME)
+	@echo "\033[31m[ ✔ ] Objects files \033[91m$(OBJ_LIST) \033[0m\033[31m removed. \033[0m"
+	@echo "\033[31m[ ✔ ] Binary \033[1;31m$(NAME) \033[1;0m\033[31mremoved.\033[0m"
 re: fclean all
-
