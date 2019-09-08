@@ -7,6 +7,8 @@ PixelBuff::PixelBuff(unsigned w, unsigned h) : _width(w), _height(h)
 
 void PixelBuff::putPix(unsigned x, unsigned y, Uint32 col = 0xffffff)
 {
+    if (x > (unsigned)(_width - 1) || y > (unsigned)(_height -1))
+        return ;
     _pixels[x + (y * _width)] = col;
 }
 

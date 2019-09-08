@@ -26,10 +26,17 @@ public:
 private:
     void _renderTestScreen();
     void _renderTestLine();
+    void _testApplyController(Vector2 <int> &p, float &angle);
     Renderer _renderer;
     Scene _scene;
     PixelBuff _pixelBuff;
     EventListener _eventListener;
+
+    Vector2<int> p1;
+    Vector2<int> p2;
+    Vector2<int> pos;
+
+    float   angle;
 
     Game();
     Game(const Game &);

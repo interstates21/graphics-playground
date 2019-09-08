@@ -32,17 +32,48 @@ Game::~Game()
      }
  }
 
+void Game::_testApplyController(Vector2 <int> &p, float &angle) {
 
-  void Game::_renderTestLine()
+    if (_eventListener.move_forw) {
+        p.x = p.x + 1;
+        p.y = p.y + 1;
+    }
+    if (_eventListener.move_back) {
+        p.x = p.x - 1;
+        p.y = p.y - 1;
+    }
+    if (_eventListener.rot_left) {
+        angle -= 0.1;
+    }
+
+    if (_eventListener.rot_right) {
+        angle += 0.1;
+    }
+
+     angle += 0.1;
+}
+
+void Game::_renderTestLine()
  {
-    Vector2 <int> p1(0, 300);
-    Vector2 <int> p2(300, 300);
     Line l(p1, p2);
+
+    _testApplyController(pos, angle);
+    Line pl(pos.x, pos.y, cos(angle) * 20 + pos.x,  sin(angle) * 20 + pos.y);
     l.render(_pixelBuff, NICE_BLUE);
+    pl.render(_pixelBuff, NICE_BLUE);
+    pos.render(_pixelBuff, RED);
+
  }
+
+
+
 
 void Game::init()
 {
+    p1 = Vector2 <int>(70, 20);
+    p2 = Vector2 <int>(70, 190);
+    pos = Vector2 <int>(50, 50);
+    angle = 0;
     std::cout << "The Game is running!" << std::endl;
 }
 
@@ -68,6 +99,7 @@ void Game::setScene(Scene const &s)
 
 void Game::run()
 {
+    init();
     while (_eventListener.isRunning())
     {
         _eventListener.listen();
