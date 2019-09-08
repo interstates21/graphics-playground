@@ -1,6 +1,6 @@
 NAME = doom
 CC = g++
-FILES = main EventListener Game PixelBuff Renderer Scene Vector2
+FILES = main EventListener Game PixelBuff Renderer Scene
 LIBFT_DIR = libft/
 SRC = $(addprefix src/, $(addsuffix .cpp, $(FILES)))
 OBJ = $(addprefix obj/, $(addsuffix .o, $(FILES)))

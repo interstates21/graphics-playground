@@ -4,7 +4,7 @@
 
 #include "PixelBuff.hpp"
 #include "main.hpp"
-#include "PixelBuff.hpp"
+#include "Vector2.hpp"
 #include "Renderer.hpp"
 #include "Scene.hpp"
 #include "EventListener.hpp"

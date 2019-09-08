@@ -20,16 +20,17 @@ Game::~Game()
 {
     delete instance;
 }
-void Game::_renderTestScreen()
-{
-    for (unsigned i = 0; i < _renderer.getWidth(); ++i)
-    {
-        for (unsigned j = 0; j < _renderer.getHeight(); ++j)
-        {
-            _pixelBuff.putPix(i, j, 0x0000ff);
-        }
-    }
-}
+ void Game::_renderTestScreen()
+ {
+     for (int i = 0; i < (int)_renderer.getWidth(); ++i)
+     {
+          Vector2<int> v(i, 5);
+            v.render(_pixelBuff, 0x0000ff);
+          for (unsigned j = 0; j < _renderer.getHeight(); ++j)
+          {
+          }
+     }
+ }
 
 void Game::init()
 {

@@ -10,11 +10,6 @@ void PixelBuff::putPix(unsigned x, unsigned y, Uint32 col = 0xffffff)
     _pixels[x + (y * _width)] = col;
 }
 
-void PixelBuff::putPix(Vector2<int> v, Uint32 col = 0xffffff)
-{
-    _pixels[v.x + (v.y * _width)] = col;
-}
-
 PixelBuff::~PixelBuff()
 {
 }
@@ -25,9 +20,10 @@ void PixelBuff::clear(void)
 }
 
 PixelBuff::PixelBuff(PixelBuff const &origin)
-    : _pixels(vector<Uint32>(origin._pixels)),
-      _width(origin._width),
-      _height(origin._height) {}
+    : _width(origin._width),
+    _height(origin._height),
+    _pixels(vector<Uint32>(origin._pixels))
+     {}
 
 PixelBuff &PixelBuff::operator=(PixelBuff const &rhs)
 {
