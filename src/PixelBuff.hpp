@@ -4,6 +4,7 @@
 #include "main.hpp"
 #include <algorithm>
 #include <vector>
+#include "Vector2.hpp"
 
 using namespace std;
 
@@ -15,6 +16,8 @@ public:
     PixelBuff &operator=(PixelBuff const &);
     vector<Uint32> &getPixels(void);
     void putPix(unsigned, unsigned, Uint32);
+    void putPix(Vector2<int>, Uint32);
+    void swap(PixelBuff &);
     void clear(void);
     ~PixelBuff();
 

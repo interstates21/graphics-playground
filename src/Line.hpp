@@ -1,22 +1,20 @@
 #ifndef LINE_HPP
 #define LINE_HPP
 
-#include "V2.hpp"
+#include "Vector2.hpp"
 #include "PixelBuff.hpp"
 #include "APrimitive.hpp"
 
-
 template <typename P>
-class Line : public APrimitive{
+class Line : public APrimitive
+{
 
-
-    public:
-
+public:
     Line(P, P);
 
     render(PixelBuff &);
 
-    private:
+private:
 };
 
 #endif

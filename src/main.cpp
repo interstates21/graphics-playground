@@ -12,8 +12,8 @@ int main()
 {
     Game *game = Game::getInstance();
     Renderer renderer(WIDTH, HEIGHT);
-    EventListener eventListener;
     PixelBuff pixelBuff(WIDTH, HEIGHT);
+    EventListener eventListener;
     Scene scene;
 
     game->init();

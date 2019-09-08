@@ -2,12 +2,17 @@
 
 PixelBuff::PixelBuff(unsigned w, unsigned h) : _width(w), _height(h)
 {
-    _pixels = std::vector<Uint32>(w * h, 0);
+    _pixels = vector<Uint32>(w * h, 0);
 };
 
 void PixelBuff::putPix(unsigned x, unsigned y, Uint32 col = 0xffffff)
 {
     _pixels[x + (y * _width)] = col;
+}
+
+void PixelBuff::putPix(Vector2<int> v, Uint32 col = 0xffffff)
+{
+    _pixels[v.x + (v.y * _width)] = col;
 }
 
 PixelBuff::~PixelBuff()
@@ -19,11 +24,17 @@ void PixelBuff::clear(void)
     fill(_pixels.begin(), _pixels.end(), 0);
 }
 
-PixelBuff &PixelBuff::operator=(PixelBuff const &r)
+PixelBuff::PixelBuff(PixelBuff const &origin)
+    : _pixels(vector<Uint32>(origin._pixels)),
+      _width(origin._width),
+      _height(origin._height) {}
+
+PixelBuff &PixelBuff::operator=(PixelBuff const &rhs)
 {
-    _pixels = r._pixels;
-    _width = r._width;
-    _height = r._height;
+    if (this != &rhs)
+    {
+        PixelBuff(rhs).swap(*this);
+    }
 
     return (*this);
 }
@@ -33,6 +44,12 @@ vector<Uint32> &PixelBuff::getPixels()
     return (_pixels);
 }
 
+void PixelBuff::swap(PixelBuff &rhs)
+{
+    std::swap(_pixels, rhs._pixels);
+    std::swap(_width, rhs._width);
+    std::swap(_height, rhs._height);
+}
 std::ostream &operator<<(std::ostream &os, const PixelBuff &p)
 {
 
