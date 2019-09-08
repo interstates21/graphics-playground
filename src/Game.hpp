@@ -8,6 +8,7 @@
 #include "Renderer.hpp"
 #include "Scene.hpp"
 #include "EventListener.hpp"
+#include "Line.hpp"
 
 class Game
 {
@@ -24,6 +25,7 @@ public:
 
 private:
     void _renderTestScreen();
+    void _renderTestLine();
     Renderer _renderer;
     Scene _scene;
     PixelBuff _pixelBuff;

@@ -72,7 +72,7 @@ Vector2 <T>cross(const Vector2 <T>&rhs) const
 {
     Vector2 v;
 
-    v.x = ;
+    v.x = y * rhs.x;
     v.y = y * rhs.x;
 
     return (v);

@@ -24,12 +24,21 @@ Game::~Game()
  {
      for (int i = 0; i < (int)_renderer.getWidth(); ++i)
      {
-          Vector2<int> v(i, 5);
-            v.render(_pixelBuff, 0x0000ff);
           for (unsigned j = 0; j < _renderer.getHeight(); ++j)
           {
+               Vector2<int> v(i, j);
+                v.render(_pixelBuff, 0x0000ff);
           }
      }
+ }
+
+
+  void Game::_renderTestLine()
+ {
+    Vector2 <int> p1(0, 300);
+    Vector2 <int> p2(300, 300);
+    Line l(p1, p2);
+    l.render(_pixelBuff, NICE_BLUE);
  }
 
 void Game::init()
@@ -63,7 +72,8 @@ void Game::run()
     {
         _eventListener.listen();
         // _scene.apply(_eventListener);
-        _renderTestScreen();
+        // _renderTestScreen();
+        _renderTestLine();
         _renderer.renderFrame(_pixelBuff);
     }
 }
